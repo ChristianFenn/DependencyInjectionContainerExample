@@ -41,6 +41,12 @@ class Container {
         $this->bindings[$fqcn] = $instance;
     }
 
+    /**
+     * Returns true if the container has a binding for the FQCN.
+     *
+     * @param string $fqcn
+     * @return boolean
+     */
     public function has(string $fqcn): bool {
         return isset($this->bindings[$fqcn]);
     }

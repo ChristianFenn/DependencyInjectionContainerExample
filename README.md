@@ -26,7 +26,7 @@ $container->set(OrderService::class, function(DependencyInjectionContainer $c) {
     return new OrderService($c->get(PaymentService::class), $c->get(CustomerEngagementService::class));
 });
 
-// PaymentService requires a SecurityClient. Instantiated 3nrd.
+// PaymentService requires a SecurityClient. Instantiated 3rd.
 $container->set(PaymentService::class, function(DependencyInjectionContainer $c) {
     return new PaymentService($c->get(SecurityClient::class));
 });
