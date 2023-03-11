@@ -2,17 +2,19 @@
 
 namespace App\Controllers;
 
+use App\Exceptions\ViewNotFoundException;
+
 class Controller {
 
     /**
-     * Undocumented function
+     * Render a given $view. Note that the file must be in the views directory.
      *
      * @param string $view
      * @return void
      */
     protected function render(string $view) {
         switch ($view) {
-            // __DIR__ is src/Router. Go back ../../
+            // __DIR__ is src/Router. Go back ../../ to get 
             case '/':
                 require __DIR__ . "/../../views/$view.php";
                 break;
@@ -23,8 +25,7 @@ class Controller {
                 require __DIR__ . "/../../views/$view.php";
                 break;
             default:
-                http_response_code(404);
-                require __DIR__ . '/../../views/errors/404.php';
+                throw new ViewNotFoundException("$view not found.");
         }
     }
 

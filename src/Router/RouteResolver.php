@@ -8,14 +8,13 @@ use App\Controllers\AboutController;
 class RouteResolver {
 
     /**
-     * Undocumented function
+     * Run a function mapped to a given route.
      *
      * @param string $route
      * @return void
      */
     public function resolve(string $view) {
         switch ($view) {
-            // __DIR__ is src/Router. Go back ../../
             case '/':
                 (new HomeController)->index();
                 break;
