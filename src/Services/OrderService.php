@@ -18,8 +18,13 @@ class OrderService
 
 	public function process(): OrderReceipt
 	{
-		$receiptId = $this->paymentService->processPayment();
-		$this->customerEngagementService->sendEmail();
-		return new OrderReceipt($receiptId);
+		// All of the logic here will be tested ...
+		// ...
+
+		$trackingId = $this->paymentService->processPayment(); // should be mocked
+		$this->customerEngagementService->sendEmail(['tracking_id' => $trackingId]); // should be mocked
+
+		// All of the logic here will be tested ...
+		return new OrderReceipt('123');
 	}
 }

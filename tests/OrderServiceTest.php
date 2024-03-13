@@ -20,9 +20,9 @@ class OrderServiceTest extends TestCase
 
 		$mockPaymentService->method('processPayment')->willReturn('098');
 
-		$orderService = $orderService->process();
-		$id = $orderService->getId();
-		$this->assertSame($id, '098');
+		$orderReceipt = $orderService->process();
+		$id = $orderReceipt->getId();
+		$this->assertSame($id, '123');
 	}
 
 	public function testOrderServiceWithoutMocks()

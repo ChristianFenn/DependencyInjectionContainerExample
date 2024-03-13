@@ -9,8 +9,9 @@ class CustomerEngagementService
 	{
 	}
 
-	public function sendEmail(): void
+	public function sendEmail(array $payload): void
 	{
-		sleep(1);
+		echo 'CustomerEngagementService sending email...' . PHP_EOL;
+		sleep(2);
 	}
 }
