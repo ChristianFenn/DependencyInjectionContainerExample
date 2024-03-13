@@ -9,7 +9,8 @@ use App\Services\PaymentService;
 use App\Services\SecurityClient;
 
 $orderService = new OrderService(
-    new PaymentService(new SecurityClient()), new CustomerEngagementService()
+    new PaymentService(new SecurityClient()),
+    new CustomerEngagementService()
 );
 
 $orderService->process();

@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
-class SecurityClient {
+class SecurityClient
+{
 
-    public function __construct() {}
-
+    public function __construct()
+    {
+    }
 }

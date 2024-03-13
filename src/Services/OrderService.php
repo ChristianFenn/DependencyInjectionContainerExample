@@ -2,15 +2,24 @@
 
 namespace App\Services;
 
-class OrderService {
+use App\Models\OrderReceipt;
 
-    public function __construct(
-        PaymentService $paymentService, 
-        CustomerEngagementService $customerEngagementService,
-        ) {}
+class OrderService
+{
 
-    public function process() {
-        echo 'Done!' . PHP_EOL;
-    }
+	private PaymentService $paymentService;
+	private CustomerEngagementService $customerEngagementService;
 
+	public function __construct(PaymentService $paymentService, CustomerEngagementService $customerEngagementService)
+	{
+		$this->paymentService = $paymentService;
+		$this->customerEngagementService = $customerEngagementService;
+	}
+
+	public function process(): OrderReceipt
+	{
+		$receiptId = $this->paymentService->processPayment();
+		$this->customerEngagementService->sendEmail();
+		return new OrderReceipt($receiptId);
+	}
 }

@@ -2,26 +2,29 @@
 
 namespace App\DependencyInjection;
 
-use Exception;
-use ReflectionClass;
-use ReflectionNamedType;
 use ReflectionParameter;
+use ReflectionClass;
+use Exception;
+use ReflectionNamedType;
 
-class Container {
+class Container
+{
 
     private array $bindings = [];
 
     /**
      * Note that this function passes $this which is an instance
-     * of Container, to the function stored in $bindings. This is 
+     * of Container, to the function stored in $bindings. This is
      * calling the function that gets the object for us!
-     * 
+     *
      * Attempts to find an explicit binding, falls back to autowiring.
      *
      * @param string $fqcn A fully qualified class name
      * @return mixed
+     * @throws ReflectionException
      */
-    public function get(string $fqcn): mixed {
+    public function get(string $fqcn): mixed
+    {
         if (isset($this->bindings[$fqcn])) {
             return $this->bindings[$fqcn]($this);
         } else {
@@ -37,7 +40,8 @@ class Container {
      * @param callable $instance
      * @return void
      */
-    public function set(string $fqcn, callable $instance): void {
+    public function set(string $fqcn, callable $instance): void
+    {
         $this->bindings[$fqcn] = $instance;
     }
 
@@ -47,7 +51,8 @@ class Container {
      * @param string $fqcn
      * @return boolean
      */
-    public function has(string $fqcn): bool {
+    public function has(string $fqcn): bool
+    {
         return isset($this->bindings[$fqcn]);
     }
 
@@ -56,14 +61,17 @@ class Container {
      *
      * @param string $fqcn
      * @return mixed
+     * @throws ReflectionException
+     * @throws Exception
      */
-    public function resolve(string $fqcn): mixed {
+    public function resolve(string $fqcn): mixed
+    {
         $reflectionClass = new ReflectionClass($fqcn);
         if (!$reflectionClass->isInstantiable()) {
             throw new Exception("$fqcn is not instantiable");
         }
         $constructor = $reflectionClass->getConstructor();
-        $parameters = $constructor->getParameters();
+        $parameters = $constructor?->getParameters();
 
         // Base case:
         // No constructor, or a constructor with no parameters
@@ -76,7 +84,7 @@ class Container {
         // Recursive case:
         // Resolve each dependency of the object we're resolving
         $concreteDependencies = [];
-        foreach($parameters as $parameter) {
+        foreach ($parameters as $parameter) {
             $type = $this->getType($parameter);
             if (isset($this->bindings[$type->getName()])) {
                 $concreteDependencies[] = $this->bindings[$type->getName()]($this);
@@ -94,8 +102,11 @@ class Container {
      *
      * @param ReflectionParameter $dependency
      * @return ReflectionNamedType
+     * @throws Exception
      */
-    private function getType(ReflectionParameter $dependency): ReflectionNamedType {
+    private function getType(ReflectionParameter $dependency): ReflectionNamedType
+    {
+        /** @var ReflectionNamedType */
         $type = $dependency->getType();
         if (!$type) {
             $name = $dependency->getName();
@@ -106,5 +117,4 @@ class Container {
         }
         return $type;
     }
-
 }
