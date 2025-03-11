@@ -110,7 +110,7 @@ class Container
         $type = $dependency->getType();
         if (!$type) {
             $name = $dependency->getName();
-            throw new Exception("$name is not type hinted. Cannot resolve!");
+            throw new Exception("$name is not type hinted. Cannot resolve.");
         }
         if ($type->isBuiltin()) {
             throw new Exception("Cannot resolve built in types.");

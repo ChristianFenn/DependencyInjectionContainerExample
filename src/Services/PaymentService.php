@@ -12,6 +12,7 @@ class PaymentService
 
 	public function processPayment(): string
 	{
+		// AWS API 0.001 USD
 		sleep(2);
 		return "123"; // some kind of fake receipt ID
 	}

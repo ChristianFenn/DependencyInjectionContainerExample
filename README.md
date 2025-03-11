@@ -46,9 +46,15 @@ $container->set(CustomerEngagementService::class, function(DependencyInjectionCo
 $orderService = $container->get(OrderService::class);
 ```
 
-Or better yet, use reflection to implement autowiring!
+Or better yet, use reflection to implement autowiring, and we end up with:
 
 ```
 $container = new DependencyInjectionContainer();
 $orderService = $container->get(OrderService::class);
+```
+
+
+Running PHPUnit tests:
+```
+./vendor/bin/phpunit tests/OrderServiceTest.php
 ```
